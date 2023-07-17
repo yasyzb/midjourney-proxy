@@ -16,11 +16,10 @@
 - [x] 任务队列，默认队列10，并发3。可参考 [MidJourney订阅级别](https://docs.midjourney.com/docs/plans) 调整mj.queue
 - [x] user-token 连接 wss，可以获取错误信息和完整功能
 - [x] 支持 discord域名(server、cdn、wss)反代，配置 mj.ng-discord
+- [x] 支持配置账号池，分发绘图任务
 
 ## 后续计划
 - [ ] 支持 Reroll 操作
-- [ ] 支持配置账号池，分发绘图任务
-- [ ] 修复相关Bug，[Wiki / 已知问题](https://github.com/novicezk/midjourney-proxy/wiki/%E5%B7%B2%E7%9F%A5%E9%97%AE%E9%A2%98)
 
 ## 使用前提
 1. 注册 MidJourney，创建自己的频道，参考 https://docs.midjourney.com/docs/quick-start
@@ -93,6 +92,7 @@ docker run -d --name midjourney-proxy \
 - [stable-diffusion-mobileui](https://github.com/yuanyuekeji/stable-diffusion-mobileui) : SDUI，基于本接口和SD，可一键打包生成H5和小程序
 - [ChatGPT-Midjourney](https://github.com/Licoy/ChatGPT-Midjourney) : 一键拥有你自己的 ChatGPT+Midjourney 网页服务
 - [MidJourney-Web](https://github.com/ConnectAI-E/MidJourney-Web) : 🍎 Supercharged Experience For MidJourney On Web UI
+- [koishi-plugin-midjourney-discord](https://github.com/araea/koishi-plugin-midjourney-discord) : Koishi插件，在Koishi支持的聊天平台中调用Midjourney
 - 依赖此项目且开源的，欢迎联系作者，加到此处展示
 
 ## 其它

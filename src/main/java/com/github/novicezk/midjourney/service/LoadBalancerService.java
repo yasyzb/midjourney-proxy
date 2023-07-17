@@ -1,6 +1,8 @@
 package com.github.novicezk.midjourney.service;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import com.github.novicezk.midjourney.support.DiscordInstance;
+
+import java.util.Collection;
 
 /**
  * @author NpcZZZZZZ
@@ -10,27 +12,10 @@ import java.util.concurrent.atomic.AtomicInteger;
  **/
 public interface LoadBalancerService {
 
-    AtomicInteger ATOMIC_INTEGER = new AtomicInteger(0);
+	Collection<DiscordInstance> getAllInstances();
 
-    /**
-     * 简单的自增
-     *
-     * @return int
-     */
-    default int getAndIncrement() {
-        int current;
-        int next;
-        do {
-            current = ATOMIC_INTEGER.get();
-            next = current == Integer.MAX_VALUE ? 0 : current + 1;
-        } while (!ATOMIC_INTEGER.compareAndSet(current, next));
-        return next;
-    }
+	DiscordInstance chooseInstance();
 
-    /**
-     * 获取轮询的key
-     *
-     * @return String
-     */
-    String getLoadBalancerKey();
+	DiscordInstance getDiscordInstance(String instanceId);
+
 }

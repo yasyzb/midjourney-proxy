@@ -17,12 +17,12 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class AutoRunWebSocketStarterRunner implements ApplicationRunner {
-    private final Map<String, WebSocketStarter> webSocketStarterMap;
+	private final Map<String, WebSocketStarter> webSocketStarterMap;
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        for (Map.Entry<String, WebSocketStarter> entry : webSocketStarterMap.entrySet()) {
-            entry.getValue().start();
-        }
-    }
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
+		for (Map.Entry<String, WebSocketStarter> entry : webSocketStarterMap.entrySet()) {
+			entry.getValue().start();
+		}
+	}
 }
