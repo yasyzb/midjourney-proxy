@@ -13,12 +13,10 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import javax.annotation.Resource;
 
 @Service
 @RequiredArgsConstructor
 public class LoadBalancerServiceImpl implements LoadBalancerService {
-	@Resource
 	private final TaskStoreService taskStoreService;
 
 	private final AtomicInteger position = new AtomicInteger(0);
