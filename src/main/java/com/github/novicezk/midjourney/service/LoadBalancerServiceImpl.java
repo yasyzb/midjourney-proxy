@@ -3,7 +3,6 @@ package com.github.novicezk.midjourney.service;
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.support.DiscordInstance;
 
-import javassist.expr.NewArray;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +52,7 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		int conIndex = -1;
 		for (Integer concurrent : concurrentValues) {
 			conIndex++;
-			if (concurrent.equals(0)) {
+			if (concurrent <= 0) {
 				// 没有并发额度
 				continue;
 			}
@@ -67,7 +66,7 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		int fastIndex = -1;
 		for (Integer v : fastValues) {
 			fastIndex++;
-			if (v.equals(0)) {
+			if (v <= 0) {
 				continue;
 			}
 			fastIds.add(fastIndex);

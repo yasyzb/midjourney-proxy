@@ -17,7 +17,4 @@ public class DiscordAccount {
 	 * 是否使用user_token连接wss，默认启用.
 	 */
 	private boolean userWss = true;
-
-	// 并发数
-	private int concurrentJob = 3;
 }
