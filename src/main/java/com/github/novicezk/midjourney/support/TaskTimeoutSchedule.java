@@ -40,7 +40,6 @@ public class TaskTimeoutSchedule {
 			}
 			this.taskQueueHelper.changeStatusAndNotify(task, task.getStatus());
 			String instanceId = (String) task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
-			this.taskQueueHelper.taskStoreService.incBy(Constants.KEY_FAST_PREFIX + instanceId, 4); // fast额度
 			this.taskQueueHelper.taskStoreService.incBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 		}
 	}
