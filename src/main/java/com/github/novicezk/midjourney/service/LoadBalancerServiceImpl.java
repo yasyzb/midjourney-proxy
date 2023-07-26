@@ -74,6 +74,7 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 
 		// 可用为空
 		if (ds.size() == 0) {
+			System.out.println("ds.size() == 0");
 			int index = this.random.nextInt(this.discordInstances.size());
 			String instanceId = this.discordInstances.get(index).getInstanceId();
 			this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, 4); // fast额度
@@ -84,9 +85,11 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		int returnIndex = 0;
 		// relax || 没有fast额度
 		if (relax || fastIds.size() == 0) {
+			System.out.println("relax || fastIds.size() == 0" + relax + "," + fastIds.size());
 			returnIndex = this.random.nextInt(ds.size());
 		}
 		// fast && 有fast额度
+		System.out.println("fast && 有fast额度");
 		int fastId = this.random.nextInt(fastIds.size());
 		returnIndex = fastIds.get(fastId);
 		String instanceId = ds.get(returnIndex).getInstanceId();
