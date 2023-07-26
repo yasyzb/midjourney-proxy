@@ -45,6 +45,8 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		// 拿到有并发额度的instance
 		List<Integer> concurrentValues = this.taskStoreService
 				.mget(this.getInstanceIds(Constants.KEY_CONCURRENT_PREFIX));
+		System.out.println("---" + this.discordInstances.size());
+		System.out.println("===" + Constants.KEY_CONCURRENT_PREFIX + concurrentValues.get(0));
 		List<String> queryAvailableIds = new ArrayList<>();
 		List<DiscordInstance> ds = new ArrayList<>();
 		int conIndex = -1;
@@ -59,6 +61,7 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		}
 
 		List<Integer> fastValues = this.taskStoreService.mget(queryAvailableIds);
+		System.out.println("===" + queryAvailableIds.get(0) + fastValues.get(0));
 		// fast instance id
 		List<Integer> fastIds = new ArrayList<>();
 		int fastIndex = -1;
@@ -74,7 +77,7 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 
 		// 可用为空
 		if (ds.size() == 0) {
-			int index = this.random.nextInt(ds.size());
+			int index = this.random.nextInt(0);
 			String instanceId = this.discordInstances.get(index).getInstanceId();
 			this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, 4); // fast额度
 			this.taskStoreService.descBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度

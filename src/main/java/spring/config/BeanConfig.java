@@ -31,6 +31,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.web.client.RestTemplate;
+import spring.config.IntegerRedisSerializer;
 
 import javax.annotation.Resource;
 import java.time.Duration;
@@ -119,7 +120,7 @@ public class BeanConfig {
 		redisTemplate.setConnectionFactory(redisConnectionFactory);
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-		redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(Task.class));
+		redisTemplate.setValueSerializer(new IntegerRedisSerializer());
 		return redisTemplate;
 	}
 
