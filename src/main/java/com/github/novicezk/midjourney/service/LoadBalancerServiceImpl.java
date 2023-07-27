@@ -89,11 +89,12 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		if (relax || fastIds.size() == 0) {
 			System.out.println("relax || fastIds.size() == 0" + relax + "," + fastIds.size());
 			returnIndex = this.random.nextInt(ds.size());
+		} else {
+			// fast && 有fast额度
+			System.out.println("fast && 有fast额度");
+			int fastId = this.random.nextInt(fastIds.size());
+			returnIndex = fastIds.get(fastId);
 		}
-		// fast && 有fast额度
-		System.out.println("fast && 有fast额度");
-		int fastId = this.random.nextInt(fastIds.size());
-		returnIndex = fastIds.get(fastId);
 		String instanceId = ds.get(returnIndex).getInstanceId();
 		if (!relax) {
 			this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, Constants.FAST_IMAGE_SECONDS); // fast额度
