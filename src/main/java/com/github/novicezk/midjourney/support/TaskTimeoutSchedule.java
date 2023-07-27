@@ -46,8 +46,10 @@ public class TaskTimeoutSchedule {
 		}
 	}
 
-	@Scheduled(cron = "0/5 * * * * ? ")
+	// 每月1号，0:01:00执行
+	@Scheduled(cron = "0 1 0 1 * ?")
 	public void resetFastConcurrentTimes() {
+		log.info("reset fast/concurrent times");
 		for (DiscordInstance instance : discordInstances) {
 			String id = instance.getInstanceId();
 			Integer concurrent = instance.getAccount().getConcurrent();
