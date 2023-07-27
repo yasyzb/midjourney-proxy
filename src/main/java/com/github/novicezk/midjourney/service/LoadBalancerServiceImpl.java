@@ -78,7 +78,15 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 			int index = this.random.nextInt(this.discordInstances.size());
 			String instanceId = this.discordInstances.get(index).getInstanceId();
 			if (!relax) {
-				this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, Constants.FAST_IMAGE_SECONDS); // fast额度
+				int inFastIndex = 0;
+				for (int i = 0; i < queryAvailableIds.size(); i++) {
+					if (queryAvailableIds.get(i) == Constants.KEY_FAST_PREFIX + instanceId) {
+						inFastIndex = i;
+					}
+				}
+				if (fastValues.get(inFastIndex) > 0) {
+					this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, Constants.FAST_IMAGE_SECONDS); // fast额度
+				}
 			}
 			this.taskStoreService.descBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 			return this.discordInstances.get(index);
@@ -97,7 +105,15 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		}
 		String instanceId = ds.get(returnIndex).getInstanceId();
 		if (!relax) {
-			this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, Constants.FAST_IMAGE_SECONDS); // fast额度
+			int inFastIndex = 0;
+			for (int i = 0; i < queryAvailableIds.size(); i++) {
+				if (queryAvailableIds.get(i) == Constants.KEY_FAST_PREFIX + instanceId) {
+					inFastIndex = i;
+				}
+			}
+			if (fastValues.get(inFastIndex) > 0) {
+				this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, Constants.FAST_IMAGE_SECONDS); // fast额度
+			}
 		}
 		this.taskStoreService.descBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 		return ds.get(returnIndex);
