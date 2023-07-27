@@ -29,7 +29,7 @@ public class TaskServiceImpl implements TaskService {
 	public SubmitResultVO submitImagine(Task task, DataUrl dataUrl) {
 		return this.taskQueueHelper.submitTask(task, () -> {
 			DiscordInstance discordInstance = this.loadBalancerService
-					.chooseInstance(task.isRelaxJob());
+					.chooseInstance(task.isRelax());
 			if (dataUrl != null) {
 				String taskFileName = task.getId() + "." + MimeTypeUtils.guessFileSuffix(dataUrl.getMimeType());
 				Message<String> uploadResult = discordInstance.upload(taskFileName, dataUrl);
@@ -78,7 +78,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public SubmitResultVO submitDescribe(Task task, DataUrl dataUrl) {
 		return this.taskQueueHelper.submitTask(task, () -> {
-			DiscordInstance discordInstance = this.loadBalancerService.chooseInstance(task.isRelaxJob());
+			DiscordInstance discordInstance = this.loadBalancerService.chooseInstance(task.isRelax());
 			String taskFileName = task.getId() + "." + MimeTypeUtils.guessFileSuffix(dataUrl.getMimeType());
 			Message<String> uploadResult = discordInstance.upload(taskFileName, dataUrl);
 			if (uploadResult.getCode() != ReturnCode.SUCCESS) {
@@ -94,7 +94,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public SubmitResultVO submitBlend(Task task, List<DataUrl> dataUrls, BlendDimensions dimensions) {
 		return this.taskQueueHelper.submitTask(task, () -> {
-			DiscordInstance discordInstance = this.loadBalancerService.chooseInstance(task.isRelaxJob());
+			DiscordInstance discordInstance = this.loadBalancerService.chooseInstance(task.isRelax());
 			List<String> finalFileNames = new ArrayList<>();
 			for (DataUrl dataUrl : dataUrls) {
 				String taskFileName = task.getId() + "." + MimeTypeUtils.guessFileSuffix(dataUrl.getMimeType());

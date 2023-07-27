@@ -69,7 +69,8 @@ public class Task implements Serializable {
 		this.progress = "0%";
 	}
 
-	public boolean isRelaxJob() {
+	@JsonIgnore
+	public boolean isRelax() {
 		return this.prompt.contains("--relax");
 	}
 
