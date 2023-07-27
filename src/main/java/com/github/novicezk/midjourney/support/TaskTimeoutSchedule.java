@@ -48,12 +48,10 @@ public class TaskTimeoutSchedule {
 
 	@Scheduled(cron = "0/5 * * * * ? ")
 	public void resetFastConcurrentTimes() {
-		log.info("running resetFastConcurrentTimes");
 		for (DiscordInstance instance : discordInstances) {
 			String id = instance.getInstanceId();
 			Integer concurrent = instance.getAccount().getConcurrent();
 			Integer fastTime = instance.getAccount().getFastTime();
-			log.info("running resetFastConcurrentTimes id", id, concurrent, fastTime);
 			this.taskQueueHelper.taskStoreService.set(Constants.KEY_FAST_PREFIX + id, fastTime * 60 * 60);
 			this.taskQueueHelper.taskStoreService.set(Constants.KEY_CONCURRENT_PREFIX + id, concurrent);
 		}

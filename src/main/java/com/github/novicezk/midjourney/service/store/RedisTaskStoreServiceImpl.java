@@ -106,5 +106,6 @@ public class RedisTaskStoreServiceImpl implements TaskStoreService {
 
 	@Override
 	public void set(String id, Integer num) {
+		this.redisIntTemplate.opsForValue().set(id, num);
 	}
 }
