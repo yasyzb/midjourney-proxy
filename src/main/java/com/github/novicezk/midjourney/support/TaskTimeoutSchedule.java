@@ -23,7 +23,6 @@ public class TaskTimeoutSchedule {
 
 	@Scheduled(fixedRate = 30000L)
 	public void checkTasks() {
-		log.info("running check tasks");
 		long currentTime = System.currentTimeMillis();
 		long timeout = TimeUnit.MINUTES.toMillis(this.properties.getQueue().getTimeoutMinutes());
 		List<Task> tasks = this.taskQueueHelper.findRunningTask(new TaskCondition())
