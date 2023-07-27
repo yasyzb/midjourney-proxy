@@ -18,4 +18,5 @@ public interface LoadBalancerService {
 
 	DiscordInstance getDiscordInstance(String instanceId);
 
+	void useInstance(String instanceId, Integer num);
 }

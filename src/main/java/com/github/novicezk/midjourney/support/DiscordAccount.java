@@ -17,4 +17,6 @@ public class DiscordAccount {
 	 * 是否使用user_token连接wss，默认启用.
 	 */
 	private boolean userWss = true;
+	private Integer concurrent = 3;
+	private Integer fastTime = 15;
 }

@@ -19,9 +19,11 @@ import java.util.concurrent.TimeUnit;
 public class TaskTimeoutSchedule {
 	private final TaskQueueHelper taskQueueHelper;
 	private final ProxyProperties properties;
+	private final List<DiscordInstance> discordInstances;
 
 	@Scheduled(fixedRate = 30000L)
 	public void checkTasks() {
+		log.info("running check tasks");
 		long currentTime = System.currentTimeMillis();
 		long timeout = TimeUnit.MINUTES.toMillis(this.properties.getQueue().getTimeoutMinutes());
 		List<Task> tasks = this.taskQueueHelper.findRunningTask(new TaskCondition())
@@ -41,6 +43,19 @@ public class TaskTimeoutSchedule {
 			this.taskQueueHelper.changeStatusAndNotify(task, task.getStatus());
 			String instanceId = (String) task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
 			this.taskQueueHelper.taskStoreService.incBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
+		}
+	}
+
+	@Scheduled(cron = "0/5 * * * * ? ")
+	public void resetFastConcurrentTimes() {
+		log.info("running resetFastConcurrentTimes");
+		for (DiscordInstance instance : discordInstances) {
+			String id = instance.getInstanceId();
+			Integer concurrent = instance.getAccount().getConcurrent();
+			Integer fastTime = instance.getAccount().getFastTime();
+			log.info("running resetFastConcurrentTimes id", id, concurrent, fastTime);
+			this.taskQueueHelper.taskStoreService.set(Constants.KEY_FAST_PREFIX + id, fastTime * 60 * 60);
+			this.taskQueueHelper.taskStoreService.set(Constants.KEY_CONCURRENT_PREFIX + id, concurrent);
 		}
 	}
 }

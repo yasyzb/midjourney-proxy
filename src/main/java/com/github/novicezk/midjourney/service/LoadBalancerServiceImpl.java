@@ -77,7 +77,9 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 			System.out.println("ds.size() == 0");
 			int index = this.random.nextInt(this.discordInstances.size());
 			String instanceId = this.discordInstances.get(index).getInstanceId();
-			this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, 4); // fast额度
+			if (!relax) {
+				this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, Constants.FAST_IMAGE_SECONDS); // fast额度
+			}
 			this.taskStoreService.descBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 			return this.discordInstances.get(index);
 		}
@@ -93,7 +95,9 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		int fastId = this.random.nextInt(fastIds.size());
 		returnIndex = fastIds.get(fastId);
 		String instanceId = ds.get(returnIndex).getInstanceId();
-		this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, 4); // fast额度
+		if (!relax) {
+			this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, Constants.FAST_IMAGE_SECONDS); // fast额度
+		}
 		this.taskStoreService.descBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 		return ds.get(returnIndex);
 	}
@@ -120,5 +124,11 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 			ids.add(prefix + d.getInstanceId());
 		}
 		return ids;
+	}
+
+	@Override
+	public void useInstance(String instanceId, Integer num) {
+		this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, num); // fast额度
+		this.taskStoreService.descBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 	}
 }

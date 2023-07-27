@@ -61,4 +61,8 @@ public class InMemoryTaskStoreServiceImpl implements TaskStoreService {
 	@Override
 	public void incBy(String id, Integer num) {
 	}
+
+	@Override
+	public void set(String id, Integer num) {
+	}
 }

@@ -10,7 +10,6 @@ import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.core.ValueOperations;
 
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -103,5 +102,9 @@ public class RedisTaskStoreServiceImpl implements TaskStoreService {
 
 	private String getRedisConcurrentKey(String id) {
 		return KEY_CONCURRENT_PREFIX + id;
+	}
+
+	@Override
+	public void set(String id, Integer num) {
 	}
 }

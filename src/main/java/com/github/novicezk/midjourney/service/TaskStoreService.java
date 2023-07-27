@@ -24,4 +24,6 @@ public interface TaskStoreService {
 	void descBy(String id, Integer num);
 
 	void incBy(String id, Integer num);
+
+	void set(String id, Integer num);
 }

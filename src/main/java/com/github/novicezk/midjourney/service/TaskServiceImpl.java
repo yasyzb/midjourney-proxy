@@ -58,6 +58,7 @@ public class TaskServiceImpl implements TaskService {
 			int messageFlags) {
 		return this.taskQueueHelper.submitTask(task, () -> {
 			String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+			this.loadBalancerService.useInstance(instanceId, Constants.FAST_UPSCALE_SECONDS);
 			DiscordInstance discordInstance = this.loadBalancerService.getDiscordInstance(instanceId);
 			return discordInstance.upscale(targetMessageId, index, targetMessageHash, messageFlags);
 		});
@@ -68,6 +69,7 @@ public class TaskServiceImpl implements TaskService {
 			int messageFlags) {
 		return this.taskQueueHelper.submitTask(task, () -> {
 			String instanceId = task.getPropertyGeneric(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+			this.loadBalancerService.useInstance(instanceId, Constants.FAST_VARIATION_SECONDS);
 			DiscordInstance discordInstance = this.loadBalancerService.getDiscordInstance(instanceId);
 			return discordInstance.variation(targetMessageId, index, targetMessageHash, messageFlags);
 		});
