@@ -70,8 +70,6 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 			fastIds.add(fastIndex);
 		}
 
-		lock.unlock();
-
 		// 可用为空
 		if (ds.size() == 0) {
 			System.out.println("ds.size() == 0");
@@ -116,6 +114,9 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 			}
 		}
 		this.taskStoreService.descBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
+
+		lock.unlock();
+
 		return ds.get(returnIndex);
 	}
 
