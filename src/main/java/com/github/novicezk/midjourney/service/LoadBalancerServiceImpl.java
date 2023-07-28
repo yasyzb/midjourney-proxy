@@ -4,6 +4,8 @@ import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.support.DiscordInstance;
 
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.boot.autoconfigure.cache.CacheProperties.Infinispan;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -106,6 +108,7 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 			int inFastIndex = 0;
 			for (int i = 0; i < queryAvailableIds.size(); i++) {
 				if (queryAvailableIds.get(i) == Constants.KEY_FAST_PREFIX + instanceId) {
+					System.out.println("===fast id:" + inFastIndex + ":" + fastValues.get(inFastIndex));
 					inFastIndex = i;
 				}
 			}
