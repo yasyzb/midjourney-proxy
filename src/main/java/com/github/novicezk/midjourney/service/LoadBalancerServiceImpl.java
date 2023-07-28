@@ -88,7 +88,6 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 					this.taskStoreService.descBy(Constants.KEY_FAST_PREFIX + instanceId, Constants.FAST_IMAGE_SECONDS); // fast额度
 				}
 			}
-			this.taskStoreService.descBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 			return this.discordInstances.get(index);
 		}
 
