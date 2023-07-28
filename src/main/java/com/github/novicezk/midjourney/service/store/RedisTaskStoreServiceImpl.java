@@ -1,5 +1,6 @@
 package com.github.novicezk.midjourney.service.store;
 
+import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.service.TaskStoreService;
 import com.github.novicezk.midjourney.support.Task;
 import com.github.novicezk.midjourney.support.TaskCondition;
@@ -18,10 +19,9 @@ import java.util.stream.Collectors;
 
 public class RedisTaskStoreServiceImpl implements TaskStoreService {
 	private static final String KEY_PREFIX = "mj-task-store::";
-	private static final String KEY_FAST_PREFIX = "mj-task-store-fast::";
-	private static final String KEY_CONCURRENT_PREFIX = "mj-task-store-concurrent::";
 
 	private final Duration timeout;
+	private final Duration runningTimeout = Duration.ofHours(1);
 	private final RedisTemplate<String, Task> redisTemplate;
 	private final RedisTemplate<String, Integer> redisIntTemplate;
 
@@ -35,11 +35,18 @@ public class RedisTaskStoreServiceImpl implements TaskStoreService {
 	@Override
 	public void save(Task task) {
 		this.redisTemplate.opsForValue().set(getRedisKey(task.getId()), task, this.timeout);
+		this.redisTemplate.opsForValue().set(getRunningRedisKey(task.getId()), task, this.runningTimeout);
 	}
 
 	@Override
 	public void delete(String id) {
 		this.redisTemplate.delete(getRedisKey(id));
+		this.redisTemplate.delete(getRunningRedisKey(id));
+	}
+
+	@Override
+	public void deleteCommon(String id) {
+		this.redisTemplate.delete(id);
 	}
 
 	@Override
@@ -49,10 +56,6 @@ public class RedisTaskStoreServiceImpl implements TaskStoreService {
 
 	@Override
 	public List<Integer> mget(List<String> ids) {
-		// List<String> keys = new ArrayList<String>();
-		// for (String id : ids) {
-		// keys.add(getRedisFastKey(id));
-		// }
 		return this.redisIntTemplate.opsForValue().multiGet(ids);
 	}
 
@@ -96,12 +99,8 @@ public class RedisTaskStoreServiceImpl implements TaskStoreService {
 		return KEY_PREFIX + id;
 	}
 
-	private String getRedisFastKey(String id) {
-		return KEY_FAST_PREFIX + id;
-	}
-
-	private String getRedisConcurrentKey(String id) {
-		return KEY_CONCURRENT_PREFIX + id;
+	private String getRunningRedisKey(String id) {
+		return Constants.KEY_RUNNING_PREFIX + id;
 	}
 
 	@Override

@@ -26,4 +26,6 @@ public interface TaskStoreService {
 	void incBy(String id, Integer num);
 
 	void set(String id, Integer num);
+
+	void deleteCommon(String id);
 }

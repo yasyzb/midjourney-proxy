@@ -19,6 +19,7 @@ public final class Constants {
 
 	public static final String KEY_FAST_PREFIX = "mj-task-store-fast::";
 	public static final String KEY_CONCURRENT_PREFIX = "mj-task-store-concurrent::";
+	public static final String KEY_RUNNING_PREFIX = "mj-task-store-running::";
 	public static final Integer FAST_IMAGE_SECONDS = 4 * 60;
 	public static final Integer FAST_UPSCALE_SECONDS = 18;
 	public static final Integer FAST_VARIATION_SECONDS = 4 * 18;

@@ -65,4 +65,9 @@ public class InMemoryTaskStoreServiceImpl implements TaskStoreService {
 	@Override
 	public void set(String id, Integer num) {
 	}
+
+	@Override
+	public void deleteCommon(String id) {
+		this.taskMap.remove(id);
+	}
 }

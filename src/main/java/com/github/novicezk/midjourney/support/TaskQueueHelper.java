@@ -81,6 +81,8 @@ public class TaskQueueHelper {
 		} catch (Exception e) {
 			log.error("submit task error", e);
 			return SubmitResultVO.fail(ReturnCode.FAILURE, "提交失败，系统异常");
+		} finally {
+			this.taskStoreService.deleteCommon(Constants.KEY_RUNNING_PREFIX + task.getId());
 		}
 		if (size == 0) {
 			return SubmitResultVO.of(ReturnCode.SUCCESS, "提交成功", task.getId());
