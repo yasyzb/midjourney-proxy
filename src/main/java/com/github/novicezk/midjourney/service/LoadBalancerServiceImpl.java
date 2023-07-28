@@ -77,7 +77,7 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 			System.out.println("ds.size() == 0");
 			int index = this.random.nextInt(this.discordInstances.size());
 			String instanceId = this.discordInstances.get(index).getInstanceId();
-			if (!relax) {
+			if (!relax && fastValues.size() > 0) {
 				int inFastIndex = 0;
 				for (int i = 0; i < queryAvailableIds.size(); i++) {
 					if (queryAvailableIds.get(i) == Constants.KEY_FAST_PREFIX + instanceId) {
