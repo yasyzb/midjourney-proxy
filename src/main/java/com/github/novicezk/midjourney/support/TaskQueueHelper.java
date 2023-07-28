@@ -1,7 +1,6 @@
 package com.github.novicezk.midjourney.support;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ProxyProperties;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.enums.TaskStatus;

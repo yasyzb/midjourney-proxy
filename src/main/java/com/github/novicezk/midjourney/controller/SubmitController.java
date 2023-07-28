@@ -6,6 +6,7 @@ import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.ProxyProperties;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.dto.BaseSubmitDTO;
+import com.github.novicezk.midjourney.dto.InfoDTO;
 import com.github.novicezk.midjourney.dto.SubmitBlendDTO;
 import com.github.novicezk.midjourney.dto.SubmitChangeDTO;
 import com.github.novicezk.midjourney.dto.SubmitDescribeDTO;
@@ -63,7 +64,8 @@ public class SubmitController {
 		String promptEn;
 		int paramStart = prompt.indexOf(" --");
 		if (paramStart > 0) {
-			promptEn = this.translateService.translateToEnglish(prompt.substring(0, paramStart)).trim() + prompt.substring(paramStart);
+			promptEn = this.translateService.translateToEnglish(prompt.substring(0, paramStart)).trim()
+					+ prompt.substring(paramStart);
 		} else {
 			promptEn = this.translateService.translateToEnglish(prompt).trim();
 		}
@@ -86,6 +88,19 @@ public class SubmitController {
 		task.setDescription("/imagine " + prompt);
 		return this.taskService.submitImagine(task, dataUrl);
 	}
+
+	// @ApiOperation(value = "提交Imagine任务")
+	// @PostMapping("/imagine")
+	// public SubmitResultVO info(@RequestBody InfoDTO infoDTO) {
+	// String instanceId = infoDTO.getInstanceId();
+	// if (CharSequenceUtil.isBlank(instanceId)) {
+	// return SubmitResultVO.fail(ReturnCode.VALIDATION_ERROR, "instanceId不能为空");
+	// }
+	// Task task = newTask(infoDTO);
+	// task.setAction(TaskAction.INFO);
+	// task.setDescription("/info");
+	// return this.taskService.submitInfo(task, instanceId);
+	// }
 
 	@ApiOperation(value = "绘图变化-simple")
 	@PostMapping("/simple-change")
@@ -139,8 +154,10 @@ public class SubmitController {
 		task.setAction(changeDTO.getAction());
 		task.setPrompt(targetTask.getPrompt());
 		task.setPromptEn(targetTask.getPromptEn());
-		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, targetTask.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID));
-		task.setProperty(Constants.TASK_PROPERTY_FINAL_PROMPT, targetTask.getProperty(Constants.TASK_PROPERTY_FINAL_PROMPT));
+		task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID,
+				targetTask.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID));
+		task.setProperty(Constants.TASK_PROPERTY_FINAL_PROMPT,
+				targetTask.getProperty(Constants.TASK_PROPERTY_FINAL_PROMPT));
 		task.setDescription(description);
 		int messageFlags = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_FLAGS);
 		String messageId = targetTask.getPropertyGeneric(Constants.TASK_PROPERTY_MESSAGE_ID);
@@ -205,7 +222,8 @@ public class SubmitController {
 		task.setId(IdUtil.getSnowflakeNextIdStr());
 		task.setSubmitTime(System.currentTimeMillis());
 		task.setState(base.getState());
-		String notifyHook = CharSequenceUtil.isBlank(base.getNotifyHook()) ? this.properties.getNotifyHook() : base.getNotifyHook();
+		String notifyHook = CharSequenceUtil.isBlank(base.getNotifyHook()) ? this.properties.getNotifyHook()
+				: base.getNotifyHook();
 		task.setProperty(Constants.TASK_PROPERTY_NOTIFY_HOOK, notifyHook);
 		return task;
 	}

@@ -1,6 +1,5 @@
 package com.github.novicezk.midjourney.support;
 
-
 import com.github.novicezk.midjourney.enums.BlendDimensions;
 import com.github.novicezk.midjourney.result.Message;
 import com.github.novicezk.midjourney.service.DiscordService;
@@ -25,6 +24,11 @@ public class DiscordInstance implements DiscordService {
 	@Override
 	public Message<Void> imagine(String prompt) {
 		return this.service.imagine(prompt);
+	}
+
+	@Override
+	public Message<Void> info() {
+		return this.service.info();
 	}
 
 	@Override

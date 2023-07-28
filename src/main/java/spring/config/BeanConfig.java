@@ -76,7 +76,8 @@ public class BeanConfig {
 					ResourceUtil.readUtf8Str("api-params/reroll.json"),
 					ResourceUtil.readUtf8Str("api-params/describe.json"),
 					ResourceUtil.readUtf8Str("api-params/blend.json"),
-					ResourceUtil.readUtf8Str("api-params/message.json"), restTemplate);
+					ResourceUtil.readUtf8Str("api-params/message.json"),
+					ResourceUtil.readUtf8Str("api-params/info.json"), restTemplate);
 			instances.add(new DiscordInstance(account.getChannelId(), account, discordService));
 		}
 		return instances;

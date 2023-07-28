@@ -57,4 +57,13 @@ public class TaskTimeoutSchedule {
 			this.taskQueueHelper.taskStoreService.set(Constants.KEY_CONCURRENT_PREFIX + id, concurrent);
 		}
 	}
+
+	// 每月1号，0:01:00执行
+	@Scheduled(fixedRate = 10000L)
+	public void setFastTime() {
+		log.info("set fast times");
+		for (DiscordInstance instance : discordInstances) {
+			instance.info();
+		}
+	}
 }

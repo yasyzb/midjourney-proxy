@@ -110,4 +110,15 @@ public class TaskServiceImpl implements TaskService {
 		});
 	}
 
+	@Override
+	public SubmitResultVO submitInfo(Task task, String instanceId) {
+		return SubmitResultVO.of(ReturnCode.FAILURE, "待实现", task.getId());
+		// return this.taskQueueHelper.submitTask(task, () -> {
+		// DiscordInstance discordInstance =
+		// this.loadBalancerService.getDiscordInstance(instanceId);
+		// task.setProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID, instanceId);
+		// this.taskStoreService.save(task);
+		// return discordInstance.info();
+		// });
+	}
 }

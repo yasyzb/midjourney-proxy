@@ -1,6 +1,5 @@
 package com.github.novicezk.midjourney.service;
 
-
 import cn.hutool.core.text.CharSequenceUtil;
 import com.github.novicezk.midjourney.ReturnCode;
 import com.github.novicezk.midjourney.enums.BlendDimensions;
@@ -42,6 +41,7 @@ public class DiscordServiceImpl implements DiscordService {
     private final String describeParamsJson;
     private final String blendParamsJson;
     private final String messageParamsJson;
+    private final String infoJson;
     private final RestTemplate restTemplate;
 
     @Override
@@ -52,6 +52,15 @@ public class DiscordServiceImpl implements DiscordService {
         JSONObject params = new JSONObject(paramsStr);
         params.getJSONObject("data").getJSONArray("options").getJSONObject(0)
                 .put("value", prompt);
+        return postJsonAndCheckStatus(params.toString());
+    }
+
+    @Override
+    public Message<Void> info() {
+        String paramsStr = this.infoJson.replace("$guild_id", this.discordGuildId)
+                .replace("$channel_id", this.discordChannelId)
+                .replace("$session_id", this.discordSessionId);
+        JSONObject params = new JSONObject(paramsStr);
         return postJsonAndCheckStatus(params.toString());
     }
 
@@ -138,7 +147,8 @@ public class DiscordServiceImpl implements DiscordService {
                     .put("files", new JSONArray().put(fileObj));
             ResponseEntity<String> responseEntity = postJson(this.discordUploadUrl, params.toString());
             if (responseEntity.getStatusCode() != HttpStatus.OK) {
-                log.error("上传图片到discord失败, status: {}, msg: {}", responseEntity.getStatusCodeValue(), responseEntity.getBody());
+                log.error("上传图片到discord失败, status: {}, msg: {}", responseEntity.getStatusCodeValue(),
+                        responseEntity.getBody());
                 return Message.of(ReturnCode.VALIDATION_ERROR, "上传图片到discord失败");
             }
             JSONArray array = new JSONObject(responseEntity.getBody()).getJSONArray("attachments");
@@ -164,7 +174,8 @@ public class DiscordServiceImpl implements DiscordService {
                 .replace("$final_file_name", finalFileName);
         ResponseEntity<String> responseEntity = postJson(this.discordSendMessageUrl, paramsStr);
         if (responseEntity.getStatusCode() != HttpStatus.OK) {
-            log.error("发送图片消息到discord失败, status: {}, msg: {}", responseEntity.getStatusCodeValue(), responseEntity.getBody());
+            log.error("发送图片消息到discord失败, status: {}, msg: {}", responseEntity.getStatusCodeValue(),
+                    responseEntity.getBody());
             return Message.of(ReturnCode.VALIDATION_ERROR, "发送图片消息到discord失败");
         }
         JSONObject result = new JSONObject(responseEntity.getBody());
@@ -203,7 +214,8 @@ public class DiscordServiceImpl implements DiscordService {
             if (responseEntity.getStatusCode() == HttpStatus.NO_CONTENT) {
                 return Message.success();
             }
-            return Message.of(responseEntity.getStatusCodeValue(), CharSequenceUtil.sub(responseEntity.getBody(), 0, 100));
+            return Message.of(responseEntity.getStatusCodeValue(),
+                    CharSequenceUtil.sub(responseEntity.getBody(), 0, 100));
         } catch (HttpClientErrorException e) {
             try {
                 JSONObject error = new JSONObject(e.getResponseBodyAsString());

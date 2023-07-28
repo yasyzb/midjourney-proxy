@@ -1,6 +1,5 @@
 package com.github.novicezk.midjourney.enums;
 
-
 public enum TaskAction {
 	/**
 	 * 生成图片.
@@ -25,7 +24,10 @@ public enum TaskAction {
 	/**
 	 * 多图混合.
 	 */
-	BLEND
-
+	BLEND,
+	/**
+	 * info信息.
+	 */
+	INFO
 
 }

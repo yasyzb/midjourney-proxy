@@ -1,6 +1,5 @@
 package com.github.novicezk.midjourney.service;
 
-
 import com.github.novicezk.midjourney.enums.BlendDimensions;
 import com.github.novicezk.midjourney.result.Message;
 import eu.maxschuster.dataurl.DataUrl;
@@ -25,4 +24,5 @@ public interface DiscordService {
 
 	Message<String> sendImageMessage(String content, String finalFileName);
 
+	Message<Void> info();
 }

@@ -26,6 +26,15 @@ public abstract class MessageHandler {
 		return message.hasKey("content") ? message.getString("content") : "";
 	}
 
+	protected String getMessageEmbedDescription(DataObject message) {
+		System.out.println(message);
+		DataArray embeds = message.getArray("embeds");
+		if (embeds.isEmpty()) {
+			return "";
+		}
+		return embeds.getObject(0).getString("description");
+	}
+
 	protected void finishTask(Task task, DataObject message) {
 		task.setProperty(Constants.TASK_PROPERTY_MESSAGE_ID, message.getString("id"));
 		task.setProperty(Constants.TASK_PROPERTY_FLAGS, message.getInt("flags", 0));
