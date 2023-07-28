@@ -108,7 +108,6 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 			int inFastIndex = 0;
 			for (int i = 0; i < queryAvailableIds.size(); i++) {
 				if (queryAvailableIds.get(i).equals(Constants.KEY_FAST_PREFIX + instanceId)) {
-					System.out.println("===fast id:" + inFastIndex + ":" + fastValues.get(inFastIndex));
 					inFastIndex = i;
 				}
 			}
