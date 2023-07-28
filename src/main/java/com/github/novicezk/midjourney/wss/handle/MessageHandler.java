@@ -38,6 +38,8 @@ public abstract class MessageHandler {
 		} else {
 			task.fail("关联图片不存在");
 		}
+		String instanceId = (String) task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+		this.taskQueueHelper.taskStoreService.incBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 	}
 
 	protected void finishTask(Task task, Message message) {
@@ -51,6 +53,8 @@ public abstract class MessageHandler {
 		} else {
 			task.fail("关联图片不存在");
 		}
+		String instanceId = (String) task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
+		this.taskQueueHelper.taskStoreService.incBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 	}
 
 	protected String getMessageHash(String imageUrl) {

@@ -1,6 +1,5 @@
 package com.github.novicezk.midjourney.wss.handle;
 
-
 import com.github.novicezk.midjourney.Constants;
 import com.github.novicezk.midjourney.enums.MessageType;
 import com.github.novicezk.midjourney.enums.TaskAction;

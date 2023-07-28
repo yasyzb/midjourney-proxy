@@ -113,8 +113,6 @@ public class TaskQueueHelper {
 			task.fail("执行错误，系统异常");
 			changeStatusAndNotify(task, TaskStatus.FAILURE);
 		} finally {
-			String instanceId = (String) task.getProperty(Constants.TASK_PROPERTY_DISCORD_INSTANCE_ID);
-			this.taskStoreService.incBy(Constants.KEY_CONCURRENT_PREFIX + instanceId, 1); // 并发额度
 			this.runningTasks.remove(task);
 			this.taskFutureMap.remove(task.getId());
 		}
