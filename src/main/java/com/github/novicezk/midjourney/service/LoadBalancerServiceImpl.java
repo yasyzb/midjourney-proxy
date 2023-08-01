@@ -65,6 +65,7 @@ public class LoadBalancerServiceImpl implements LoadBalancerService {
 		List<Integer> fastIds = new ArrayList<>();
 		int fastIndex = -1;
 		for (Integer v : fastValues) {
+			System.out.println("---," + v);
 			fastIndex++;
 			if (v <= 0) {
 				continue;
